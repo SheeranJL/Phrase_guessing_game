@@ -3,9 +3,6 @@ let startGameButton = document.querySelector('.btn__reset');
 let overlay = document.getElementById('overlay');
 let keyboard = document.querySelectorAll('.keyrow button');
 
-console.log(keyboard);
-
-
 //Array of phrases
 let phrases = [
   'Benefit of the doubt',
@@ -53,6 +50,7 @@ function addPhraseToDisplay(array) {
 addPhraseToDisplay(letterArray);
 
 
+
 // Button event handler on click
 startGameButton.addEventListener('click', (e) => {
   clicker = e.target;
@@ -60,22 +58,30 @@ startGameButton.addEventListener('click', (e) => {
   console.log(clicker);
 })
 
-keyboard.addEventListener('click', (e) => {
-  userSelectKey = event.target.innerText;
-  console.log(userSelectKey);
+// Keyboard event listener
 
-  function checkLetter (click) {
-    keySelect = e.target;
-    element = document.getElementsByClassName('letter');
-    let correctLetter = '';
-    for (i = 0; i < letterArray.length; i ++) {
-      if (letterArray.includes(keySelect)) {
-        letterArray[i].className = 'show';
-        correctLetter += letterArray[i];
-      } else {
-        null;
+
+//for loop to iterate over the button nodes in the keyboard variable. Since it's selecting all nodes, we need a loop.
+for (let i = 0; i < keyboard.length; i ++) {
+  let letter = keyboard[i];
+
+  letter.addEventListener('click', (e) => {
+    userSelectKey = event.target.innerText;
+    console.log(userSelectKey);
+
+    function checkLetter (click) {
+      keySelect = e.target;
+      element = document.getElementsByClassName('letter');
+      let correctLetter = '';
+      for (i = 0; i < letterArray.length; i ++) {
+        if (letterArray.includes(keySelect)) {
+          letterArray[i].className = 'show';
+          correctLetter += letterArray[i];
+        } else {
+          null;
+        }
       }
+      return correctLetter;
     }
-    return correctLetter;
-  }
-});
+  });
+}
