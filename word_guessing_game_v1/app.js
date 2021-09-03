@@ -11,7 +11,6 @@ let liImg = document.getElementsByTagName('img');
 
 let missed = 0;
 
-
 //Array of phrases
 let phrases = [
   'Benefit of the doubt',
@@ -23,67 +22,55 @@ let phrases = [
   'Once in a blue moon'
 ];
 
-
-//Function to obtain a random item from phrase array and converting it into a new array containing each letter of the phrase
+//Function to obtain a random item from phrase array and splitting it into characters in a new array
 function getRandomPhraseArray (array) {
   let selectRandom = Math.floor(Math.random() * array.length);
   randomPhraseLetters = phrases[selectRandom].split('');
   return randomPhraseLetters;
 }
 
-
-//storing the phrase-letter array in variable
+//storing the letter array in a variable
 let letterArray = getRandomPhraseArray(phrases);
 
-
-//function to loop through each individual item in the letter array (each letter in the phrase)
+//This function loops through each letter in the array and appends to the gameboard while setting it's class when called
 function addPhraseToDisplay(array) {
-
   for (let i = 0; i < array.length; i++) {
     let letter = array[i];
     listItem = document.createElement ('li');
     listItem.textContent = letter;
-
 
     if (letter.includes(" ")) {
       listItem.className = 'space';
       } else {
       listItem.className = 'letter';
       }
+
     ul.appendChild(listItem);
    }
-}
-
-
+};
+//Calling the function above to append letters on the gameboard
 addPhraseToDisplay(letterArray);
 
-
-
-// Button event handler on click
+// Event handler for initial 'start game' button. Removes the overlay class and displays the gameboard.
 startGameButton.addEventListener('click', (e) => {
   clicker = e.target;
   overlay.style.display = 'none';
-  console.log('success');
 })
 
-//A function which checks whether a letter is contained within the letter array
+//A function which checks whether a letter is contained within the letter array, if there's a match, a class is applied to the letter.
 function checkLetter(button) {
-  const letters = document.getElementsByClassName('letter'); //array of lists
+  const letters = document.getElementsByClassName('letter');
   let match = button.textContent;
-  let correctKey = null; //buttonkey will either be null if guess is incorrect, or take the value of the button's textcontent.
-
-  Array.from(letters).forEach((letters) => { //iterate through letters to match user selection.
+  let correctKey = null;
+  //iterate through each letter to check for a match
+  Array.from(letters).forEach((letters) => {
       if (button.textContent === letters.textContent.toLowerCase()) {
       letters.classList = 'show letter';
       correctKey = match;
-    } else {
-
-    };
-  })
+      };
+    })
   return correctKey;
-}
-
-
+};
 
 //for loop to iterate over the button nodes in the keyboard variable. Since it's selecting all nodes, we need a loop.
 for (let i = 0; i < keyboard.length; i ++) {
@@ -93,7 +80,7 @@ for (let i = 0; i < keyboard.length; i ++) {
     userSelectKey = event.target;
     checkLetter(userSelectKey);
   });
-}
+};
 
 
 qwerty.addEventListener('click', (event) => {
@@ -111,28 +98,22 @@ qwerty.addEventListener('click', (event) => {
   checkWin();
 });
 
+//function to handle what happens during a win or loss (setting classes and text)
+function winLose (status, winLossText) {
+  overlay.style.display = '';
+  overlay.className = status;
+  overlay.style.display = 'flex';
+  startGameButton.textContent = 'restart';
+  document.querySelector("#overlay > h2").textContent = winLossText;
+};
+
 function checkWin () {
   const title = document.querySelectorAll('title')[0];
   const letterClass = document.getElementsByClassName('letter');
   const showClass = document.getElementsByClassName('letter show');
-
   if (letterClass.length === showClass.length) {
-  overlay.style.display = '';
-  overlay.className = 'win';
-  overlay.style.display = 'flex';
-  document.querySelector("#overlay > h2").textContent = "You're a Winner!";
-  startGameButton.textContent = 'Restart'
-
-  }
-
-  if ( missed > 4 ) {
-    overlay.style.display = '';
-    overlay.className = 'lose';
-    document.querySelector("#overlay > h2").textContent = "You ran out of lives. Try again";
-    overlay.style.display = 'flex';
-    startGameButton.textContent = 'Restart'
-    for (i = 0; i < 5; i ++) {
-
-    }
-    }
+    winLose('win', 'You win!');
+  } else if ( missed > 4 ) {
+    winLose('lose', 'You ran out of lives, try again');
   };
+};
