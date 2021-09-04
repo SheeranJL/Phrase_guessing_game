@@ -4,8 +4,8 @@ const phrase = document.getElementById('phrase');
 const overlay = document.getElementById('overlay');
 const keyboard = document.querySelectorAll('.keyrow button');
 const ul = document.querySelector('#phrase ul');
-const hearts = document.getElementsByClassName('tries') // Selected each heart element in it's own li using it's class name
-const ol = document.querySelector('ol'); //selected the OL element which is the parent of the hearts
+const hearts = document.getElementsByClassName('tries')
+const ol = document.querySelector('ol');
 const lostHeartImg = document.querySelectorAll('img');
 let liImg = document.getElementsByTagName('img');
 
@@ -73,14 +73,18 @@ function checkLetter(button) {
 };
 
 //for loop to iterate over the button nodes in the keyboard variable. Since it's selecting all nodes, we need a loop.
-for (let i = 0; i < keyboard.length; i ++) {
-  let letter = keyboard[i];
 
-  letter.addEventListener('click', (event) => {
-    userSelectKey = event.target;
-    checkLetter(userSelectKey);
-  });
-};
+
+var letter
+for (let i = 0; i < keyboard.length; i ++) {
+  letter = keyboard[i];
+}
+
+letter.addEventListener('click', (event) => {
+  userSelectKey = event.target;
+  checkLetter(userSelectKey);
+});
+
 
 
 qwerty.addEventListener('click', (event) => {
