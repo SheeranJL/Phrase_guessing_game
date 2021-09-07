@@ -8,6 +8,7 @@ const hearts = document.getElementsByClassName('tries')
 const ol = document.querySelector('ol');
 const lostHeartImg = document.querySelectorAll('img');
 let liImg = document.getElementsByTagName('img');
+let letter
 
 let missed = 0;
 
@@ -19,7 +20,9 @@ let phrases = [
   'An arm and a leg',
   'Live for today',
   'Back to square one',
-  'Once in a blue moon'
+  'Once in a blue moon',
+  'Live for today',
+  'Never give up',
 ];
 
 //Function to obtain a random item from phrase array and splitting it into characters in a new array
@@ -62,7 +65,7 @@ function checkLetter(button) {
   const letters = document.getElementsByClassName('letter');
   let match = button.textContent;
   let correctKey = null;
-  //iterate through each letter to check for a match
+  //Creating an array from the 'letters' HTML collection and iterating over each item.
   Array.from(letters).forEach((letters) => {
       if (button.textContent === letters.textContent.toLowerCase()) {
       letters.classList = 'show letter';
@@ -72,13 +75,10 @@ function checkLetter(button) {
   return correctKey;
 };
 
-//for loop to iterate over the button nodes in the keyboard variable. Since it's selecting all nodes, we need a loop.
-
-
-var letter
-for (let i = 0; i < keyboard.length; i ++) {
-  letter = keyboard[i];
-}
+//forEach loop to iterate over the button nodes in the keyboard variable. Since it's selecting all nodes, we need a loop.
+Array.from(keyboard).forEach((element) => {
+  letter = element
+});
 
 letter.addEventListener('click', (event) => {
   userSelectKey = event.target;
@@ -107,7 +107,6 @@ function winLose (status, winLossText) {
   overlay.style.display = '';
   overlay.className = status;
   overlay.style.display = 'flex';
-  startGameButton.textContent = 'restart';
   document.querySelector("#overlay > h2").textContent = winLossText;
 };
 
@@ -119,5 +118,6 @@ function checkWin () {
     winLose('win', 'You win!');
   } else if ( missed > 4 ) {
     winLose('lose', 'You ran out of lives, try again');
+
   };
 };
